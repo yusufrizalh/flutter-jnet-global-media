@@ -1,116 +1,50 @@
 import 'package:flutter/material.dart';
+import './nav-drawer.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(
+    title: 'Belajar Nav Drawer',
+    home: BelajarNavDrawer(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class BelajarNavDrawer extends StatefulWidget {
+  BelajarNavDrawer({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BelajarListViewBuilder(),
-    );
-  }
+  _BelajarNavDrawerState createState() => _BelajarNavDrawerState();
 }
 
-class BelajarListViewBuilder extends StatelessWidget {
-  // membuat List
-  final List bulan = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember"
-  ];
+class _BelajarNavDrawerState extends State<BelajarNavDrawer> {
+  // setiap 1 menu memiliki index
+  // scaffold key yang sama dengan index (unique)
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Belajar ListView Builder'),
+        leading: IconButton(
+          onPressed: () => _scaffoldKey.currentState!.openDrawer(),
+          icon: Icon(Icons.menu),
+        ),
+        title: Text('Belajar Nav Drawer'),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+            icon: Icon(Icons.menu),
+          ),
+        ],
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Card(
-            /*child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                bulan[index],
-                style: TextStyle(fontSize: 24.0),
-              ),
-            ),*/
-            child: ListTile(
-              title: Text(bulan[index], style: TextStyle(fontSize: 24.0)),
-              subtitle: Text('ini subtitle dari ' + bulan[index]),
-              leading: CircleAvatar(
-                child: Text(
-                  bulan[index][0], // ambil karakter ke 1
-                  style: TextStyle(fontSize: 20.0),
-                ),
-              ),
-              trailing: Icon(Icons.list),
-              onTap: () {
-                // anonymous function
-                // perintah yang dijalankan
-                AlertDialog alert1 = AlertDialog(
-                  title: Text('Nama Bulan'),
-                  content: Text(bulan[index]),
-                  actions: <Widget>[
-                    // button
-                    TextButton(
-                      onPressed: () {
-                        showResult(context);
-                      },
-                      child: Text('OK'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('CANCEL'),
-                    ),
-                  ],
-                );
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return alert1;
-                    });
-              },
-            ),
-          );
-        },
-        itemCount: bulan.length,
+      drawer: DrawerWidget(),
+      endDrawer: DrawerWidget(),
+      body: Center(
+        child: Text(
+          'Navigation Drawer pada Flutter',
+          style: TextStyle(fontSize: 24.0),
+        ),
       ),
     );
-  }
-
-  void showResult(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Tekan OK'),
-            content: Text('Anda menekan tombol OK'),
-            actions: <Widget>[
-              TextButton.icon(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(Icons.home_filled),
-                label: Text('Tombol Ok'),
-              ),
-            ],
-          );
-        });
   }
 }
