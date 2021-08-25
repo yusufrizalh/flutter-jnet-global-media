@@ -55,6 +55,9 @@ class DrawerWidget extends StatelessWidget {
 
 Widget _drawerHeader() {
   return UserAccountsDrawerHeader(
+    onDetailsPressed: () {
+      showUserDetail();
+    },
     decoration: BoxDecoration(
       image: DecorationImage(
         image: AssetImage('assets/images/pexels-1.jpg'),
@@ -84,6 +87,10 @@ Widget _drawerHeader() {
     accountName: Text('Yusuf Rizal'),
     accountEmail: Text('rizal@inixindo.co.id'),
   );
+}
+
+void showUserDetail() {
+  print('onDetailsPressed');
 }
 
 Widget _drawer_item({IconData? icon, String? text, GestureTapCallback? onTap}) {

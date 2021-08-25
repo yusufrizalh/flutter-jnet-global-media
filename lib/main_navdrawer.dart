@@ -5,6 +5,9 @@ void main() {
   runApp(MaterialApp(
     title: 'Belajar Nav Drawer',
     home: BelajarNavDrawer(),
+    theme: ThemeData(
+      primarySwatch: Colors.red,
+    ),
   ));
 }
 
